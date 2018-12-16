@@ -62,260 +62,262 @@ Simple demo project with multi-modules based on the Alibaba HSF
 			Proile: < profile >  
 			-> VM: -Dvipserver.server.port=8080
 			
-	## Create your own HSF demo project
+## Create your own HSF demo project
+
+1. New one Maven Project with plain Java support as parent project
 	
-	1. New one Maven Project with plain Java support as parent project
+	pom.xml
+		
+	~~~
+	<project>
 	
-		pom.xml
+		<modelVersion>4.0.0</modelVersion>
+		<groupId>net.yarn</groupId>
+		<artifactId>hsf-demo-1</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<packaging>pom</packaging>
+	
+		<packaging>pom</packaging>
+		<modules>
+			<module>hsf-demo-1-api</module>
+			<module>hsf-demo-1-provider</module>
+			<module>hsf-demo-1-consumer</module>
+		</modules>
 		
-		~~~
-		<project>
+		<properties>
+			<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+			<java.version>1.8</java.version>
+			<swagger.version>2.9.2</swagger.version>
+			<modelmapper.version>2.1.0</modelmapper.version>
+			<javatuples.version>1.2</javatuples.version>
+			<activiti.version>5.22.0</activiti.version>
+			<groovy.version>2.4.15</groovy.version>
+			<javatuples.version>1.2</javatuples.version>
+			<spring-boot.version>2.0.1.RELEASE</spring-boot.version>
+			<spring-cloud.version>Finchley.SR2</spring-cloud.version>
+			<optimus-common.version>1.1.3-SNAPSHOT</optimus-common.version>
+			<vipclient.version>1.3</vipclient.version>
+			<hsf.version>1.3</hsf.version>
+			<pandora.version>1.3</pandora.version>
+			<xmlgraphics.version>1.7</xmlgraphics.version>
+			<nekohtml.version>1.9.22</nekohtml.version>
+			<commons-io.version>2.4</commons-io.version>
+			<commons-fileupload.version>1.2.2</commons-fileupload.version>
+			<spring-boot-mybatis.version>1.3.2</spring-boot-mybatis.version>
+		</properties>
+	
+		<dependencies>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.5.8</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.16.18</version>
+			</dependency>
+		</dependencies>
+	
+		<dependencyManagement>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-dependencies</artifactId>
+					<version>${spring-boot.version}</version>
+					<type>pom</type>
+					<scope>import</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-dependencies</artifactId>
+					<version>${spring-cloud.version}</version>
+					<type>pom</type>
+					<scope>import</scope>
+				</dependency>
+				
+				<!-- Begin HSF -->
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-hsf</artifactId>
+					<version>${hsf.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-pandora</artifactId>
+					<version>${pandora.version}</version>
+				</dependency>
+				<!-- End HSF -->
+				
+				<!-- Begin Swagger -->
+				<dependency>
+					<groupId>io.springfox</groupId>
+					<artifactId>springfox-swagger2</artifactId>
+					<version>${swagger.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>io.springfox</groupId>
+					<artifactId>springfox-swagger-ui</artifactId>
+					<version>${swagger.version}</version>
+				</dependency>
+				<!-- End Swagger -->
+				
+			</dependencies>
+		</dependencyManagement>
 		
-			<modelVersion>4.0.0</modelVersion>
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.7.0</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</build>
+	</project>
+	~~~
+	
+2. Create one module with plain Java support as API project
+
+3. Create one module with Spring boot and HSF support as provider project
+	
+	3.1) Generate POM using https://start.spring.io/  
+	3.2) Manually update parent pom.xml to add it as module if necessary
+	
+	pom.xml
+	
+	~~~
+	<project>
+	
+		<parent>
 			<groupId>net.yarn</groupId>
 			<artifactId>hsf-demo-1</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<packaging>pom</packaging>
+		</parent>
 		
-			<packaging>pom</packaging>
-			<modules>
-				<module>hsf-demo-1-api</module>
-				<module>hsf-demo-1-provider</module>
-				<module>hsf-demo-1-consumer</module>
-			</modules>
-			
-			<properties>
-				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-				<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-				<java.version>1.8</java.version>
-				<swagger.version>2.9.2</swagger.version>
-				<modelmapper.version>2.1.0</modelmapper.version>
-				<javatuples.version>1.2</javatuples.version>
-				<activiti.version>5.22.0</activiti.version>
-				<groovy.version>2.4.15</groovy.version>
-				<javatuples.version>1.2</javatuples.version>
-				<spring-boot.version>2.0.1.RELEASE</spring-boot.version>
-				<spring-cloud.version>Finchley.SR2</spring-cloud.version>
-				<optimus-common.version>1.1.3-SNAPSHOT</optimus-common.version>
-				<vipclient.version>1.3</vipclient.version>
-				<hsf.version>1.3</hsf.version>
-				<pandora.version>1.3</pandora.version>
-				<xmlgraphics.version>1.7</xmlgraphics.version>
-				<nekohtml.version>1.9.22</nekohtml.version>
-				<commons-io.version>2.4</commons-io.version>
-				<commons-fileupload.version>1.2.2</commons-fileupload.version>
-				<spring-boot-mybatis.version>1.3.2</spring-boot-mybatis.version>
-			</properties>
-	
-			<dependencies>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-					<version>1.5.8</version>
-				</dependency>
-				<dependency>
-					<groupId>org.projectlombok</groupId>
-					<artifactId>lombok</artifactId>
-					<version>1.16.18</version>
-				</dependency>
-			</dependencies>
 		
-			<dependencyManagement>
-				<dependencies>
-					<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-dependencies</artifactId>
-						<version>${spring-boot.version}</version>
-						<type>pom</type>
-						<scope>import</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>spring-cloud-dependencies</artifactId>
-						<version>${spring-cloud.version}</version>
-						<type>pom</type>
-						<scope>import</scope>
-					</dependency>
-					
-					<!-- Begin HSF -->
-					<dependency>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>spring-cloud-starter-hsf</artifactId>
-						<version>${hsf.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>spring-cloud-starter-pandora</artifactId>
-						<version>${pandora.version}</version>
-					</dependency>
-					<!-- End HSF -->
-					
-					<!-- Begin Swagger -->
-					<dependency>
-						<groupId>io.springfox</groupId>
-						<artifactId>springfox-swagger2</artifactId>
-						<version>${swagger.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>io.springfox</groupId>
-						<artifactId>springfox-swagger-ui</artifactId>
-						<version>${swagger.version}</version>
-					</dependency>
-					<!-- End Swagger -->
-					
-				</dependencies>
-			</dependencyManagement>
-			
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>3.7.0</version>
-						<configuration>
-							<source>1.8</source>
-							<target>1.8</target>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</project>
-		~~~
-	
-	2. Create one module with plain Java support as API project
-  
-	3. Create one module with Spring boot and HSF support as provider project
-	
-	   3.1) Generate POM using https://start.spring.io/
-	   3.2) Manually update parent pom.xml to add it as module if necessary
-	
-		pom.xml
 		
-		~~~
-		<project>
-		
-			<parent>
+		<dependencies>
+			<dependency>
 				<groupId>net.yarn</groupId>
-				<artifactId>hsf-demo-1</artifactId>
+				<artifactId>hsf-demo-1-api</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
-			</parent>
-			
-			
-			
-			<dependencies>
-				<dependency>
-					<groupId>net.yarn</groupId>
-					<artifactId>hsf-demo-1-api</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-				</dependency>
-				<dependency>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-starter-hsf</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-starter-pandora</artifactId>
-				</dependency>
-				<dependency>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-hsf</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-pandora</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+			</dependency>
+		</dependencies>
+	
+		<build>
+			<plugins>
+				<plugin>
 					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-web</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>io.springfox</groupId>
-					<artifactId>springfox-swagger2</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>io.springfox</groupId>
-					<artifactId>springfox-swagger-ui</artifactId>
-				</dependency>
-			</dependencies>
-		
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>repackage</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</project>
-		~~~
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</project>
+	~~~
 	
-	4. Create one module with Spring boot web and HSF support as consumer project
+4. Create one module with Spring boot web and HSF support as consumer project
 	
-	   4.1) Generate POM using https://start.spring.io/
-	   4.2) Manually update parent pom.xml to add it as module if necessary
+	4.1) Generate POM using https://start.spring.io/  
+	4.2) Manually update parent pom.xml to add it as module if necessary
 	   
-		pom.xml
+	pom.xml
+	
+	~~~
+	<project>
+	
+		<parent>
+			<groupId>net.yarn</groupId>
+			<artifactId>hsf-demo-1</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</parent>
 		
-		~~~
-		<project>
 		
-			<parent>
+		
+		<dependencies>
+			<dependency>
 				<groupId>net.yarn</groupId>
-				<artifactId>hsf-demo-1</artifactId>
+				<artifactId>hsf-demo-1-api</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
-			</parent>
-			
-			
-			
-			<dependencies>
-				<dependency>
-					<groupId>net.yarn</groupId>
-					<artifactId>hsf-demo-1-api</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-				</dependency>
-				<dependency>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-starter-hsf</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>spring-cloud-starter-pandora</artifactId>
-				</dependency>
-				<dependency>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-hsf</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-pandora</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+			</dependency>
+		</dependencies>
+	
+		<build>
+			<plugins>
+				<plugin>
 					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-web</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>io.springfox</groupId>
-					<artifactId>springfox-swagger2</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>io.springfox</groupId>
-					<artifactId>springfox-swagger-ui</artifactId>
-				</dependency>
-			</dependencies>
-		
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>repackage</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</project>
-		~~~
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</project>
+	~~~
 	
-	5. Install API dependency locally
+5. Install API dependency locally
 	
-	    Select API module 
-		*   Run As -> Maven install
-		*   mvn clean install
-	6. Sync Eclipse classpath or project settings with POM
-	   Maven -> Update Project
+	Select API module 
+	*   Run As -> Maven install
+	*   mvn clean install
+	
+6. Sync Eclipse classpath or project settings with POM
+
+	Maven -> Update Project
