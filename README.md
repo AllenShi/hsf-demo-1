@@ -1,6 +1,12 @@
 # hsf-demo-1
 Simple demo project with multi-modules based on the Alibaba HSF
 
+## Preparation
+
+1. Install Maven
+**Note** edas repository should be added into your Maven settings under ~/.m2/settings.xml (see docs/settings.xml)
+2. Install Git
+
 ## Quick Start
 
 1. Clone source code into local environment
