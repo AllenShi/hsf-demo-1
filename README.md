@@ -4,7 +4,9 @@ Simple demo project with multi-modules based on the Alibaba HSF
 ## Preparation
 
 1. Install Maven
-**Note** edas repository should be added into your Maven settings under ~/.m2/settings.xml (see docs/settings.xml)
+
+**Note** edas repository should be added into your Maven settings under ~/.m2/settings.xml (see docs/settings.xml) 
+
 2. Install Git
 
 ## Quick Start
@@ -55,10 +57,10 @@ Simple demo project with multi-modules based on the Alibaba HSF
 	
 		a) cd hsf-demo-1-provider  
 		b) mvn clean package  
-		c) java -jar target/hsf-demo-1-provider-0.0.1-SNAPSHOT.jar  
+		c) java -jar target/hsf-demo-1-provider-0.0.1-SNAPSHOT.jar  [--spring.profiles.active=<profile>]   
 		d) cd hsf-demo-1-consumer  
 		e) mvn clean package  
-		f) java -jar target/hsf-demo-1-consumer-0.0.1-SNAPSHOT.jar  
+		f) java -jar target/hsf-demo-1-consumer-0.0.1-SNAPSHOT.jar  [--spring.profiles.active=<profile>]  
 	
 	*   Start from Eclipse
 	
