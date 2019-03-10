@@ -4,9 +4,9 @@
   <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>logs/trade-dev.log</file>
+    <file>${user.home}/logs/demo-1-provider.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>logs/trade.%d{yyyy-MM-dd}-dev.log</fileNamePattern>
+      <fileNamePattern>logs/demo-1-provider.%d{yyyy-MM-dd}.log</fileNamePattern>
       <maxHistory>30</maxHistory>
     </rollingPolicy>
     <layout class="ch.qos.logback.classic.PatternLayout">
@@ -22,12 +22,14 @@
     </layout>
   </appender>
 
-  <logger name="com.deep.trade" level="debug" additivity="false">
+
+  <logger name="net.yarn.hsf" level="debug" additivity="false">
     <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE"/>
   </logger>
 
   <root level="debug">
-    <appender-ref ref="FILE"/>
+    <appender-ref ref="STDOUT"/>
   </root>
 
 </configuration>
